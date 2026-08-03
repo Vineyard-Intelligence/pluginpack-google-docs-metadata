@@ -2,7 +2,7 @@
   "identifier": "run.vineyard.pluginpacks.xeuledoc",
   "content_type": "vineyard:pluginpack",
   "name": "Xeuledoc",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Reads the public metadata of link-shared Google Drive documents \u2014 owner name, email and account id, last modifier, timestamps and sharing role \u2014 and writes it into the graph. Desktop only. A port of xeuledoc by Malfrats Industries (github.com/Malfrats/xeuledoc), licensed GPL-3.0.",
   "author": {
     "name": "vineyard-run",
@@ -27,7 +27,7 @@
       "identifier": "run.vineyard.plugins.xeuledoc",
       "content_type": "vineyard:plugin",
       "name": "Xeuledoc",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "Reads the public metadata of a link-shared Google Docs/Drive file \u2014 owner name, email and account id, last modifier, creation and modification times, and the link-sharing role \u2014 and writes it into the graph. Desktop only. Uses the Drive web client's own public endpoint, which Google may change or restrict without notice. A port of xeuledoc by Malfrats Industries (github.com/Malfrats/xeuledoc), licensed GPL-3.0.",
       "icon": "file-search",
       "platforms": {
@@ -46,14 +46,14 @@
         "consumes": [
           {
             "typepack": "run.vineyard.typepacks.infrastructure",
-            "category": "infrastructure",
+            "category": "web",
             "name": "url"
           }
         ],
         "produces": [
           {
             "typepack": "run.vineyard.typepacks.infrastructure",
-            "category": "infrastructure",
+            "category": "web",
             "name": "url"
           },
           {

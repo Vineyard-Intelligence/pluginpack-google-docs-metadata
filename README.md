@@ -35,7 +35,7 @@ than half-working.
 
 | Node | Type | De-duplicates on |
 | --- | --- | --- |
-| The document | `infrastructure.url` | a canonical URL built from the file id and Google's own `mimeType` — so `?usp=sharing`, `/view` vs `/edit` and `/u/0/` variants all collapse to one node |
+| The document | `web.url` | a canonical URL built from the file id and Google's own `mimeType` — so `?usp=sharing`, `/view` vs `/edit` and `/u/0/` variants all collapse to one node |
 | Owner / last modifier | `identity.user_account` | `<permissionId> · Google` — Google's stable account id, not the display name |
 | Their email | `identity.email_address` | the lowercased address |
 | Owner as a person | `identity.person` | **off by default** — this type de-duplicates on full name, which would merge two unrelated owners who share a display name |
