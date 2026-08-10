@@ -5,7 +5,7 @@
   "version": "2.0.0",
   "description": "Reads the public metadata of link-shared Google Drive documents — owner name, email and account id, last modifier, timestamps and sharing role — and writes it into the graph. Desktop only. A port of xeuledoc by Malfrats Industries (github.com/Malfrats/xeuledoc), licensed GPL-3.0.",
   "author": {
-    "name": "vineyard-run",
+    "name": "VINEYARD",
     "url": "https://github.com/vineyard-run"
   },
   "license": "GPL-3.0",
