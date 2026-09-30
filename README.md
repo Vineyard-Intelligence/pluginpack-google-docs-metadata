@@ -10,26 +10,11 @@ Given only an anonymous document link, it recovers:
 - **created / modified** timestamps
 - the **link-sharing role** (e.g. `anyoneWithLink:reader`)
 
-## Desktop only — and not merely because "CORS is annoying"
+## Desktop only
 
-The endpoint the Drive web client itself uses authorises callers by an `X-Origin` header and
-**rejects any request that carries an `Origin` header at all**. A browser force-attaches its real
-`Origin` to cross-origin requests, and `Origin` is a [forbidden header
-name](https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name) that JavaScript
-cannot remove or overwrite. The request is therefore not difficult in a browser — it is
-structurally impossible.
-
-Measured against the live endpoint:
-
-| Request | Result |
-| --- | --- |
-| `X-Origin` only | `404 File not found` for a bogus id — **request accepted** |
-| no `X-Origin` | `403 Requests from referer <empty> are blocked` |
-| `X-Origin` **and** `Origin` | `400 Bad request: Origin doesn't match Host for XD3` |
-
-The Vineyard desktop shell performs the request from the Electron main process, which has no
-browsing context and so attaches no `Origin`. In a browser build the plugin says so plainly rather
-than half-working.
+The endpoint the Drive web client itself uses **rejects any request that carries an `Origin`
+header**, and a browser always attaches one to cross-origin requests, so this cannot work in a
+browser. In a browser build the plugin says so plainly rather than half-working.
 
 ## What it writes
 
@@ -46,12 +31,10 @@ linking the node you selected to the canonical document node.
 ## Being a good citizen
 
 The endpoint is reached with a Google **public web key** shared by the whole Drive web population,
-and the desktop shell applies no per-host rate limiting — so this plugin is the only throttle that
-exists. It uses concurrency 2, a 250 ms per-worker gap, bounded exponential backoff with full
-jitter, a 200-document per-run budget, and a circuit breaker that stops the run on the first
-outcome that will fail identically for every other id. There is no proxy or IP rotation: that would
-turn rate-limit handling into block evasion, which is indefensible for a tool whose output may end
-up in a report.
+so the plugin throttles itself: concurrency 2, a 250 ms per-worker gap, bounded exponential backoff
+with full jitter, a 200-document per-run budget, and a circuit breaker that stops the run on the
+first outcome that will fail identically for every other id. There is no proxy or IP rotation —
+that would be block evasion.
 
 ## Privacy
 
@@ -63,8 +46,7 @@ without ever fetching the image, and stamps every document node with `source`, `
 authored anything.
 
 "Publicly available" is not an exemption under GDPR or Korean PIPA. The legitimate-interest
-assessment belongs to the operator; the plugin's job is to make what it collected auditable enough
-to defend.
+assessment belongs to the operator.
 
 ## Caveat
 
