@@ -1,9 +1,9 @@
 {
-  "identifier": "run.vineyard.pluginpacks.xeuledoc",
+  "identifier": "run.vineyard.pluginpacks.google_docs_metadata",
   "content_type": "vineyard:pluginpack",
-  "name": "Xeuledoc",
-  "version": "2.0.0",
-  "description": "Reads the public metadata of link-shared Google Drive documents — owner name, email and account id, last modifier, timestamps and sharing role — and writes it into the graph. Desktop only. A port of xeuledoc by Malfrats Industries (https://github.com/Malfrats/xeuledoc), licensed GPL-3.0.",
+  "name": "Google Docs Metadata",
+  "version": "2.1.0",
+  "description": "Reads the public metadata of link-shared Google Docs/Drive files: owner, email, timestamps and sharing role. Desktop only. A port of xeuledoc by Malfrats Industries (https://github.com/Malfrats/xeuledoc), licensed GPL-3.0.",
   "author": {
     "name": "VINEYARD",
     "url": "https://github.com/Vineyard-Intelligence"
@@ -24,11 +24,11 @@
   },
   "plugins": [
     {
-      "identifier": "run.vineyard.plugins.xeuledoc",
+      "identifier": "run.vineyard.plugins.google_docs_metadata",
       "content_type": "vineyard:plugin",
-      "name": "Xeuledoc",
-      "version": "2.0.0",
-      "description": "Reads the public metadata of a link-shared Google Docs/Drive file — owner name, email and account id, last modifier, creation and modification times, and the link-sharing role — and writes it into the graph. Desktop only. Uses the Drive web client's own public endpoint, which Google may change or restrict without notice. A port of xeuledoc by Malfrats Industries (https://github.com/Malfrats/xeuledoc), licensed GPL-3.0.",
+      "name": "Google Docs Metadata",
+      "version": "2.1.0",
+      "description": "Reads the public metadata of link-shared Google Docs/Drive files from selected URL nodes or from links/IDs entered in the Run dialog. Creates a URL node per document (title, MIME type, size, created/modified times, sharing role), linked \"document metadata for\" from the selected node, and an Account (Google account id, display name) with its Email Address for the owner and the last modifier, linked \"owns document\" / \"last modified document\" and \"account email\"; with create_person on, each Account also gets a Person linked \"account\". Up to 200 documents per run; folders, shortlinks and published (/d/e/) links are skipped. Desktop only.",
       "icon": "file-search",
       "platforms": {
         "primary": "desktop",
