@@ -2,7 +2,7 @@
   "identifier": "run.vineyard.pluginpacks.google_docs_metadata",
   "content_type": "vineyard:pluginpack",
   "name": "Google Docs Metadata",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Reads the public metadata of link-shared Google Docs/Drive files: owner, email, timestamps and sharing role. Desktop only. A port of xeuledoc by Malfrats Industries (https://github.com/Malfrats/xeuledoc), licensed GPL-3.0.",
   "author": {
     "name": "VINEYARD",
@@ -27,7 +27,7 @@
       "identifier": "run.vineyard.plugins.google_docs_metadata",
       "content_type": "vineyard:plugin",
       "name": "Google Docs Metadata",
-      "version": "2.1.0",
+      "version": "2.1.1",
       "description": "Reads the public metadata of link-shared Google Docs/Drive files from selected URL nodes or from links/IDs entered in the Run dialog. Creates a URL node per document (title, MIME type, size, created/modified times, sharing role), linked \"document metadata for\" from the selected node, and an Account (Google account id, display name) with its Email Address for the owner and the last modifier, linked \"owns document\" / \"last modified document\" and \"account email\"; with create_person on, each Account also gets a Person linked \"account\". Up to 200 documents per run; folders, shortlinks and published (/d/e/) links are skipped. Desktop only.",
       "icon": "file-search",
       "platforms": {
@@ -79,13 +79,13 @@
           "url": {
             "type": "string",
             "title": "Document URL or ID",
-            "description": "Optional. A Google Docs/Drive link or file id. Separate several with newlines or commas. Used in addition to any selected URL nodes."
+            "description": "Google Docs/Drive links or file IDs, separated by newlines or commas, read along with any selected URL nodes (up to 200 documents per run). Leave empty to use only the selection."
           },
           "create_person": {
             "type": "boolean",
-            "title": "Also create a Person node for the owner",
+            "title": "Create Person nodes",
             "default": false,
-            "description": "Off by default: Person nodes de-duplicate on full name, so two unrelated owners sharing a display name would merge into one person appearing to own both documents."
+            "description": "Links a Person named after the display name to each owner and last-modifier Account that has one; Persons with the same name merge into one node. Off by default."
           }
         }
       },
@@ -96,7 +96,7 @@
           "edge:create"
         ],
         "web_probe": {
-          "purpose": "Query Google's Drive metadata endpoint (clients6.google.com) anonymously for each document id. The request must carry no cookies and no Origin header — a browser fetch cannot satisfy that, which is why this plugin is desktop-only."
+          "purpose": "Look up each document's metadata on Google Drive."
         }
       },
       "lifecycle": {
