@@ -1,6 +1,6 @@
-# Xeuledoc
+# Google Docs Metadata
 
-A Vineyard pluginpack that reads the public metadata of **link-shared Google Drive documents** and
+A Vineyard pluginpack (plugin `run.vineyard.plugins.google_docs_metadata`) that reads the public metadata of **link-shared Google Drive documents** and
 writes it into an investigation graph.
 
 Given only an anonymous document link, it recovers:
@@ -57,8 +57,7 @@ rather than blaming the document.
 ## Credit and licence
 
 This pack is a port of **[xeuledoc](https://github.com/Malfrats/xeuledoc)** by **Malfrats
-Industries**, which originated this technique. The name is kept so the credit travels with the
-tool rather than living only in a README.
+Industries**, which originated this technique.
 
 Licensed **GPL-3.0**, matching the original.
 
