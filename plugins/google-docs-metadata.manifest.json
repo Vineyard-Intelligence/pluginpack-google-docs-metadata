@@ -18,8 +18,7 @@
     },
     "desktop": {
       "runtime": "sandbox-js",
-      "entry": "dist/pack.mjs",
-      "min_app_version": "0.1.0"
+      "entry": "dist/pack.mjs"
     }
   },
   "plugins": [
@@ -38,8 +37,7 @@
         },
         "desktop": {
           "runtime": "sandbox-js",
-          "entry": "dist/pack.mjs",
-          "min_app_version": "0.1.0"
+          "entry": "dist/pack.mjs"
         }
       },
       "io": {
