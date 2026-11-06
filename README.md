@@ -54,6 +54,16 @@ The technique depends on Google not tightening its origin validation. If the key
 check hardened, every request will fail at once — the plugin reports that as endpoint breakage
 rather than blaming the document.
 
+## Building from source
+
+`src/` is the source of `dist/pack.mjs`. The build pins esbuild, so the published bundle can be
+checked against the source:
+
+```bash
+node build.mjs
+git diff --exit-code dist/pack.mjs
+```
+
 ## Credit and licence
 
 This pack is a port of **[xeuledoc](https://github.com/Malfrats/xeuledoc)** by **Malfrats

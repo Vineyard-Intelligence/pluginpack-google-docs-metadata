@@ -7,5 +7,5 @@ member at it (`platforms.web.entry: "dist/pack.mjs"`), and the bundle embeds its
 manifest — the registry check refuses a pin whose bundle and manifest disagree on version or
 licence, so edit both together.
 
-This repo carries no separate source tree or build script for the pack: `pack.mjs` is the
-authoritative build and the copy of the code to edit.
+`pack.mjs` is built from `src/`, so change the source rather than this file:
+`node build.mjs && git diff --exit-code dist/pack.mjs` checks the bundle against it.
