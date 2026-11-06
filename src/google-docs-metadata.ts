@@ -342,7 +342,7 @@ const googleDocsMetadata = definePlugin({
         identifier: 'run.vineyard.plugins.google_docs_metadata',
         content_type: 'vineyard:plugin',
         name: 'Google Docs Metadata',
-        version: '2.1.1',
+        version: '2.1.2',
         description:
             'Reads the public metadata of link-shared Google Docs/Drive files from selected URL nodes or from links/IDs entered in the Run dialog. Creates a URL node per document (title, MIME type, size, created/modified times, sharing role), linked "document metadata for" from the selected node, and an Account (Google account id, display name) with its Email Address for the owner and the last modifier, linked "owns document" / "last modified document" and "account email"; with create_person on, each Account also gets a Person linked "account". Up to 200 documents per run; folders, shortlinks and published (/d/e/) links are skipped. Desktop only.',
         icon: 'file-search',
@@ -691,7 +691,7 @@ export default definePluginPack({
     identifier: 'run.vineyard.pluginpacks.google_docs_metadata',
     content_type: 'vineyard:pluginpack',
     name: 'Google Docs Metadata',
-    version: '2.1.1',
+    version: '2.1.2',
     description:
         'Reads the public metadata of link-shared Google Docs/Drive files: owner, email, timestamps and sharing role. Desktop only. A port of xeuledoc by Malfrats Industries (https://github.com/Malfrats/xeuledoc), licensed GPL-3.0.',
     plugins: [googleDocsMetadata],
