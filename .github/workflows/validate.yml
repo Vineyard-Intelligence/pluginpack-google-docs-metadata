@@ -15,7 +15,7 @@ jobs:
         run: |
           python - <<'PY'
           import glob, json, sys
-          required = {"identifier", "content_type", "name", "version", "description", "platforms"}
+          required = {"identifier", "content_type", "name", "version", "summary", "description", "platforms"}
           bad = 0
           for p in sorted(glob.glob("plugins/*.json")):
               d = json.load(open(p))

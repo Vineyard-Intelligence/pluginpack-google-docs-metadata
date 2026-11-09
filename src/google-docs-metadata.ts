@@ -687,12 +687,65 @@ function describeSkips(s: Record<SkipReason, number>): string {
     return parts.length ? ` · skipped: ${parts.join(', ')}` : '';
 }
 
+// The pack's page in the catalog, in Markdown: the About section the marketplace drawer shows
+// below the one-line `summary`. Kept as an array of lines rather than a template literal so the
+// Markdown's backticks need no escaping.
+const PACK_PAGE = [
+    'For attributing anonymously shared documents. A Google Docs or Drive file shared as "anyone with the link" still exposes its owner (display name, email address and stable Google account id), its last modifier, its creation and modification times and its link-sharing role, through the endpoint Drive\'s own web client uses. Given only a document link, this pack turns that into nodes: the pivot from an artifact to an account.',
+    '',
+    '## Plugins',
+    '',
+    '### Google Docs Metadata',
+    '',
+    '- **Runs on:** selected URL nodes holding Google Docs or Drive links, and links or file IDs entered in the Run dialog, separated by newlines or commas. Only links on docs.google.com, drive.google.com and sites.google.com, or bare file IDs, are read.',
+    "- **Adds a URL node per document** at a canonical address built from the file id and Google's MIME type, so `?usp=sharing`, `/view` versus `/edit` and `/u/0/` variants collapse into one node. It carries the title, MIME type, size, created and modified times (RFC 3339, UTC) and the sharing role (for example `anyoneWithLink:reader`). The selected node is linked to it `document metadata for`.",
+    "- **Adds the owner and the last modifier** (when different from the owner) as Account nodes, linked `owns document` and `last modified document`. The account's `username` is Google's stable account id, not the display name, with platform `google`; the display name and the profile photo address are stored, and the photo itself is never fetched. Each address becomes an Email Address node linked `account email`. A last modifier other than the owner is a second person to pivot on.",
+    '- **Option:** `create_person` (off by default) links a Person named after the display name to each Account. Persons with the same name merge into one node, which would join two unrelated owners who share a display name; that is why it is off.',
+    '- **Skipped:** Drive folders, shortened links (goo.gl, forms.gle, bit.ly: resolve them in a browser first), published `/d/e/` links (they need the `/d/<id>` address) and non-Google URLs. The run summary counts each kind.',
+    '- **Limits:** up to 200 documents per run; the summary names any beyond that, for a second run. A document that is not public, was deleted or never existed is reported as not public.',
+    '',
+    '## Requirements',
+    '',
+    '- **The Vineyard desktop app.** The endpoint rejects any request that carries an `Origin` header, and a browser always attaches one to a cross-origin request, so this cannot work in a browser. In the browser the plugin says so instead of returning an empty result.',
+    "- No API key and no Google account. The request uses Google's public web key, the one shipped in Drive's web client and shared by everyone who uses it. It is not a credential and is not tied to the analyst.",
+    '',
+    '## Limits',
+    '',
+    'Because the key is shared by the whole Drive web population, the plugin throttles itself:',
+    '',
+    '- 2 requests at a time, with at least 250 ms between requests on each.',
+    '- Up to 3 retries per document on a rate limit, with exponential backoff and full jitter, honouring `Retry-After`; at most 45 seconds of waiting per run.',
+    "- The run stops at the first answer that would fail the same way for every other document (Google refusing the request, a malformed-request error, or the shared key's daily quota exhausted), and after three rate-limited answers in a row. Documents already read stay in the graph.",
+    '- No proxy or IP rotation.',
+    '',
+    'The technique depends on Google not tightening its origin check. If the key is rotated or the check hardened, every request fails at once, and the plugin reports that as an endpoint change rather than as a missing document.',
+    '',
+    '## What it contacts',
+    '',
+    "Only Google, at https://clients6.google.com (the Drive API the web client calls), from the desktop app itself, without the analyst's Google sign-in. Google sees the document ids and the analyst's IP address. The request asks only for the fields the pack writes. No Vineyard server is involved.",
+    '',
+    '## Data and licences',
+    '',
+    "This pack collects a real person's name and email address by design. Every document node is stamped with `source`, `collected_at` and `raw_sha256`, so any name in the graph can be traced back to the response it came from. A node records that this account was observed as owner of this document at this time, not that a named person wrote it.",
+    '',
+    '"Publicly available" is not an exemption under GDPR or Korean PIPA. The legitimate-interest assessment belongs to the operator.',
+    '',
+    "This pack is a port of xeuledoc by Malfrats Industries, which originated the technique: https://github.com/Malfrats/xeuledoc. No source from that project was copied; this is an independent implementation of the same publicly documented technique, written for Vineyard's plugin sandbox and graph model. It is licensed GPL-3.0, matching the original, and is distributed as its own module: the Vineyard app fetches it at run time from a pinned commit and does not bundle it.",
+    '',
+    '## Source',
+    '',
+    'https://github.com/Vineyard-Intelligence/pluginpack-google-docs-metadata',
+    '',
+    'Licensed GPL-3.0. The bundle `dist/pack.mjs` is built from `src/` with a pinned esbuild, so it can be rebuilt and compared with `node build.mjs && git diff --exit-code dist/pack.mjs`.',
+].join('\n');
+
 export default definePluginPack({
     identifier: 'run.vineyard.pluginpacks.google_docs_metadata',
     content_type: 'vineyard:pluginpack',
     name: 'Google Docs Metadata',
-    version: '2.1.2',
-    description:
+    version: '2.2.0',
+    summary:
         'Reads the public metadata of link-shared Google Docs/Drive files: owner, email, timestamps and sharing role. Desktop only. A port of xeuledoc by Malfrats Industries (https://github.com/Malfrats/xeuledoc), licensed GPL-3.0.',
+    description: PACK_PAGE,
     plugins: [googleDocsMetadata],
 });
